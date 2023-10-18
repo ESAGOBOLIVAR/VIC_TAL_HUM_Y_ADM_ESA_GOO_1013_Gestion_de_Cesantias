@@ -1,0 +1,111 @@
+<html lang="es">
+
+  <head>
+    <?!= include_('Front/Bibliotecas/Cdn'); ?>
+    <?!= include_('Front/Css/CssGeneral'); ?> 
+    <?!= include_('Front/Index/IndexCss'); ?>
+    <base target="_top">
+    <!--Website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    <div id="loadPage"></div>
+        
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="row" style="width: 100%;">
+        <div class="col-sm-6" style="margin: auto;">
+          <p class="float-start">
+            <img src="https://d9b6rardqz97a.cloudfront.net/staticImagesFront/seguros-color.svg" style="width: 17vw; margin-left: 4vw;">
+          </p>
+        </div>  
+        <div class="col-sm-6" style="margin: auto;">
+          <p class="float-end tituloNav">
+            Gestión cesantías
+          </p>
+        </div>  
+      </div>
+    </nav>
+
+    <div class="containerDatos" id="containerDatos">
+      <form id="formulario"> 
+        <div class="card-panel row">
+          <div class="col s12">
+            <h5 class="h5_separador">Filtrar solicitudes de retiro de cesantías:</h5>
+          </div>
+        </div>
+
+        <div class="row" id="principalFiltros">
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="Fecha_solicitud">Filtrar por fecha de solicitud:</label>
+              <input id="Fecha_solicitud" class="form-control" type="date"/>
+            </div>               
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="Numero_solicitud">Buscar por número solicitud:</label>
+              <input type="text" class="form-control" id="Numero_solicitud">
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="Número_identificación">Buscar por número identificación:</label>
+              <input type="text" class="form-control" id="Número_identificación">
+            </div>
+          </div> 
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="Nombres_y_apellidos">Buscar por nombres y apellidos:</label>
+              <input type="text" class="form-control" id="Nombres_y_apellidos">
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="Tipo_de_nómina" class="control-label">Filtrar por tipo de nómina:</label>
+              <select class="form-select" id="Tipo_de_nómina">
+                <option value="" selected>Elegir</option> 
+              </select>
+            </div>               
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="Tipo_solicitud" class="control-label">Filtrar por tipo solicitud:</label>
+              <select class="form-select" id="Tipo_solicitud">
+                <option value="" selected>Elegir</option> 
+              </select>
+            </div> 
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="Estado" class="control-label">Filtrar por estado:</label>
+              <select class="form-select" id="Estado">
+                <option value="" selected>Elegir</option> 
+              </select>
+            </div>
+          </div>             
+        </div>        
+               
+        <div class="row divExample" id="divExample">
+          <table id="tableCesantias" class="w-100 table table-hover bordered" cellspacing="0" data-scroll-x="true" scroll-collapse="false"></table>           
+        </div>
+      </form>    
+    </div> <!-- Container -->
+
+    <!-- Inicio footer copyright seguros bolivar -->   
+    <footer style="top: calc(100% - 35px);position: fixed;width: 100%;">
+      <div style="background-color: #585b5e; text-align: center; padding-top: 5px;padding-bottom: 10px;" classname="">
+        <p style="color: #ffffff;font-weight:500;font-size:15px;" id="copyRigth">©️ Seguros Bolívar S.A. <text id ="anioFooter"> </text>. Se prohíbe su uso o reproducción sin
+          previa autorización de Seguro Bolívar S.A
+        </p>
+      </div>
+    </footer>
+    <!-- Fin footer copyright seguros bolivar -->
+
+  </body>
+
+  <?!= include_("Front/MarcaEsago/Footer") ?>
+  <?!= include_('Front/Bibliotecas/CdnJs'); ?>
+  <?!= include_('Front/JS/Js'); ?>
+  <?!= include_('Front/Index/IndexJs'); ?>
+</html>

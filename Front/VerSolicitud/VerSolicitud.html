@@ -1,0 +1,256 @@
+<html lang="es">
+
+  <head>
+    <?!= include_('Front/Bibliotecas/Cdn'); ?>
+    <?!= include_('Front/Css/CssGeneral'); ?> 
+    <?!= include_('Front/VerSolicitud/VerSolicitudCss'); ?>
+    <base target="_top">
+    <!--Website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>    
+    <div id="loadPage"></div>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="row" style="width: 100%;">
+        <div class="col-sm-6" style="margin: auto;">
+          <p class="float-start">
+            <img src="https://d9b6rardqz97a.cloudfront.net/staticImagesFront/seguros-color.svg" style="width: 17vw; margin-left: 4vw;">
+          </p>
+        </div>  
+        <div class="col-sm-6" style="margin: auto;">
+          <p class="float-end tituloNav">
+            Gestión cesantías
+          </p>
+        </div>  
+      </div>
+    </nav>
+
+    <div class="containerDatos" id="containerDatos">
+      <form id="formulario"> 
+        <div class="card-panel rojo-dav row">
+          <div class="col s12">            
+            <h5 class="h5_separador">
+              <i class="fa-solid fa-ticket iconDetalle"></i>
+              Detalle de la solicitud:
+            </h5>
+          </div>
+        </div> 
+
+        <div class="row" id="detalleSolicitud">
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="numeroSolicitud">Número solicitud:</label>
+              <input id="numeroSolicitud" class="form-control" type="text" onkeypress="return event.charCode >= 48 && event.charCode <= 57" disabled/>
+            </div>               
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="idPipol">Id pipol:</label>
+              <input type="text" class="form-control" id="idPipol" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="contratoSaghi">Contrato saghi:</label>
+              <input type="text" class="form-control" id="contratoSaghi" onkeypress="return event.charCode >= 48 && event.charCode <= 57"/>
+            </div>
+          </div>           
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="tipoIdentificacion">Tipo identificación:</label>
+              <input type="text" class="form-control" id="tipoIdentificacion" disabled/>
+            </div>                      
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="numeroIdentificacion">Número identificación:</label>
+              <input type="text" class="form-control" id="numeroIdentificacion"/>
+            </div>
+          </div> 
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="nombresApellidos">Nombres y apellidos:</label>
+              <input type="text" class="form-control" id="nombresApellidos"/>
+            </div>
+          </div> 
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="tipoNomina">Tipo nómina:</label>
+              <input type="text" class="form-control" id="tipoNomina" disabled/>
+            </div>            
+          </div>          
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="correoCorporativo">Correo corporativo:</label>
+              <input type="email" class="form-control" id="correoCorporativo"/>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="compañia">Compañia:</label>
+              <input type="text" class="form-control" id="compañia"/>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="tipoSolicitud">Tipo solicitud:</label>
+              <input type="text" class="form-control" id="tipoSolicitud" disabled/>
+            </div>             
+          </div>          
+          <div class="col-sm-6 col-md-3 divFondoCesantias" id="divFondoCesantias">
+            <div class="form-group">
+              <label for="fondoCesantias">Fondo de cesantias:</label>
+              <input type="text" class="form-control" id="fondoCesantias" disabled/>
+            </div>            
+          </div> 
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="motivoRetiroCesantias">Motivo de retiro de las cesantias:</label>
+              <input type="text" class="form-control" id="motivoRetiroCesantias" disabled/>
+            </div>            
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="montoSolicitar">Monto a solicitar:</label>
+              <input type="text" class="form-control" id="montoSolicitar"/>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3 divformaPagoCesantias" id="divformaPagoCesantias">
+            <div class="form-group">
+              <label for="formaPagoCesantias">Forma de pago de las cesantias:</label>
+              <input type="text" class="form-control" id="formaPagoCesantias" disabled/>
+            </div>            
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="calendario">Calendario:</label>
+              <input type="text" class="form-control" id="calendario"/>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="ordenPago">Orden de pago:</label>
+              <input type="text" class="form-control" id="ordenPago"/>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="FechaSolicitud">Fecha solicitud:</label>
+              <input id="FechaSolicitud" class="form-control" type="date" disabled/>
+            </div>               
+          </div>
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="FechaDevuelto">Fecha devuelto:</label>
+              <input id="FechaDevuelto" class="form-control" type="date" disabled/>
+            </div>               
+          </div>
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="FechaRechazo">Fecha rechazo:</label>
+              <input id="FechaRechazo" class="form-control" type="date" disabled/>
+            </div>               
+          </div>
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="fechaCierre">Fecha cierre:</label>
+              <input id="fechaCierre" class="form-control" type="date" disabled/>
+            </div>               
+          </div>
+          <div class="col-sm-6 col-md-3"> 
+            <div class="form-group">
+              <label for="fechaGestionado">Fecha gestionado:</label>
+              <input id="fechaGestionado" class="form-control" type="date" disabled/>
+            </div>               
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="estado">Estado:</label>
+              <input type="text" class="form-control" id="estado" disabled/>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-12">
+            <div class="form-group">
+              <label for="observaciones">Observaciones:</label>
+              <textarea class="form-control auto-resize" id="observaciones" disabled></textarea>
+            </div>
+          </div> 
+          <div class="col-sm-6 col-md-12 divMotivoDevolución" id="divMotivoDevolución">
+            <div class="form-group">
+              <label for="motivoDevolución">Motivo devolución:</label>
+              <textarea class="form-control auto-resize" id="motivoDevolución" disabled></textarea>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-12 divMotivoRechazo" id="divMotivoRechazo">
+            <div class="form-group">
+              <label for="motivoRechazo">Motivo rechazo:</label>
+              <textarea class="form-control auto-resize" id="motivoRechazo" disabled></textarea>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-12 divRespuestaDevolución" id="divRespuestaDevolución">
+            <div class="form-group">
+              <label for="respuestaDevolución">Respuesta devolución:</label>
+              <textarea class="form-control auto-resize" id="respuestaDevolución" disabled></textarea>
+            </div>
+          </div>                  
+        </div>        
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-sm-6 col-md-3 principalCarpetaPersonal" id="principalCarpetaPersonal">
+            <div class="form-group">
+              <div class="row">
+                <label for="estado">Carpeta adjuntos:</label>
+              </div>
+              <div class="row principalIconoDetalle">
+                <button type="button" class="btn btn-light btnCarpetaPersonal" id="btnCarpetaPersonal">
+                  <i class="fa fa-eye iconDetalleSolicitud" aria-hidden="true" id="iconoCarpetaPersonal"></i>
+                </button>
+              </div>              
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3 principalEnviarDoc" id="principalEnviarDoc">
+            <div class="form-group">
+              <div class="row">
+                <label>
+                  Carpeta soportes: 
+                  <text class="btnSinCrear" id="btnSinCrear">                     
+                  </text>
+                </label>            
+              </div>
+              <div class="row principalIconoDetalle">
+                <button type="button" class="btn btn-light btnCarpetaEnviarDoc" id="btnCarpetaEnviarDoc">
+                  <i class='fa fa-folder iconDetalleSolicitud' aria-hidden="true" id="iconoCarpetaEnviarDoc"></i>
+                </button>
+              </div>              
+            </div>
+          </div>
+        </div>
+
+      </form>  
+      
+      <div class="text-center divGuardar">
+        <button type="button" class="btn btn-light btnGuardar" id="btnGuardarDatos">
+          <i class="fas fa-save"></i>
+          Guardar datos
+        </button>
+      </div>
+    </div> <!-- Container -->    
+    
+    <!-- Inicio footer copyright seguros bolivar -->
+    <div class="footer">
+      <button type="button" class="btn btn-light btnCerrar" id="btnCerrar">Cerrar</button>
+      <button type="button" class="btn btn-light btnTramite" id="btnTramite">En trámite</button>
+      <button type="button" class="btn btn-light btnGestionado" id="btnGestionado">Gestionado</button>
+      <button type="button" class="btn btn-light btnRechazado" id="btnRechazado">Rechazado</button>
+      <button type="button" class="btn btn-light btnDevuelto" id="btnDevuelto">Devuelto</button>
+    </div>          
+    <!-- Fin footer copyright seguros bolivar -->
+
+  </body>
+
+  <?!= include_("Front/MarcaEsago/Footer") ?>
+  <?!= include_('Front/Bibliotecas/CdnJs'); ?>
+  <?!= include_('Front/JS/Js'); ?>
+  <?!= include_('Front/VerSolicitud/VerSolicitudJs'); ?>
+</html>

@@ -1,0 +1,336 @@
+<style>  
+
+  body {
+    margin-bottom: 100px;
+  }
+
+  .card-panel {
+    padding: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 8px;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-bottom: 10px;
+    color: white;
+    background-color: #048434;
+    background-image: -webkit-gradient(linear, left top, left
+    bottom, from(#ebf3fc), to(#dce9f9)); // No cambiar
+    background-image: -webkit-linear-gradient(top, #096b2e, #036e2b);
+    background-image: -moz-linear-gradient(top, #048434, #0f6630);
+    background-image: -ms-linear-gradient(top, #048434, #0f6630);
+    background-image: -o-linear-gradient(top, #048434, #0f6630);
+    background-image: linear-gradient(top, #048434, #0f6630);
+    -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+    border-top: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  }  
+
+  .iconDetalle {
+    margin-right: 5px;
+  }
+
+  .form-group {
+    margin-top: 10px !important;
+  }
+
+  .form-control {
+    margin-top: 5px !important;
+  }
+
+  .form-select {
+    margin-top: 5px !important;  
+  }
+
+  .h5_separador { 
+    margin: 0px; 
+    color: white; 
+  }
+
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 15px;
+    width: 100%;
+    background-color: var(--neutro--gris06) !important;
+    color: white;
+    text-align: right;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.34), 0 3px 1px -2px rgba(0,0,0,0.32), 0 1px 5px 0 rgba(0,0,0,0.5); 
+  }
+  
+  .btnCarpetaPersonal {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--verde_bolivar--dark) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 100px;
+    border: 1.9px solid var(--verde_bolivar--dark) !important;
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important;
+    width: 60px;
+    height: 60px;
+    margin-left: 12px;
+  }
+
+  .btnCarpetaPersonal:hover {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--fondo--verde--hover) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 100px;
+    border: 1.9px solid var(--verde_bolivar--dark) !important;
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important;
+    width: 60px;
+    height: 60px;
+    margin-left: 12px;
+  }
+  
+  #btnCarpetaPersonal:hover > #iconoCarpetaPersonal {
+    color: var(--verde_bolivar--dark) !important; 
+  }
+
+  #btnCarpetaEnviarDoc:hover > #iconoCarpetaEnviarDoc {
+    color: var(--verde_bolivar--dark) !important; 
+  }
+
+  .btnCarpetaEnviarDoc {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--verde_bolivar--dark) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 100px;
+    border: 1.9px solid var(--verde_bolivar--dark) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important;
+    width: 60px;
+    height: 60px;
+    margin-left: 12px;
+  }
+
+  .btnCarpetaEnviarDoc:hover {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--fondo--verde--hover) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 100px;
+    border: 1.9px solid var(--verde_bolivar--dark) !important;
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important;
+    width: 60px;
+    height: 60px;
+    margin-left: 12px;
+  }
+
+  .btnSinCrear {
+    color: var(--amarillo_bolivar--dark) !important;
+    font-weight: bolder !important;
+    margin-left: 5px;
+    visibility: hidden;
+    // display: none;
+  }
+  
+  .principalIconoDetalle {
+    margin-top: 3px;
+  }
+  
+  .divMotivoDevolución{
+    display: none; 
+  }
+
+  .divMotivoRechazo{
+    display: none; 
+  }
+
+  .divRespuestaDevolución {
+    display: none;  
+  }
+
+  .principalCarpetaPersonal {
+    display: none;
+  }
+
+  .principalEnviarDoc {
+    display: none;  
+  }
+
+  .divFondoCesantias {
+    display: none;
+  }
+
+  .divformaPagoCesantias {
+    display: none;  
+  }
+
+  .btnCerrar {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--neutro--gris02) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnCerrar:hover {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--neutro--gris01) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnTramite {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--amarillo_bolivar--dark) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnTramite:hover {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--amarillo_alerta) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnGestionado {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--verde_bolivar--dark) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnGestionado:hover {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--verde_alerta) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnRechazado {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--rojo_alerta) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnRechazado:hover {
+    color: var(--fondo_elemento) !important;
+    background-color: var(--rojo_dark) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnDevuelto {
+    color: var(--fondo_elemento) !important;
+    background-color: var( --neutro--gris02) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+  .btnDevuelto:hover {
+    color: var(--fondo_elemento) !important;
+    background-color: var( --neutro--gris01) !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 22px;
+    border: 1.9px solid var(--neutro--gris05) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important; 
+  }
+
+</style>

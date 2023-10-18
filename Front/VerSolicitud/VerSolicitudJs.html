@@ -1,0 +1,485 @@
+<script>
+
+  /**
+  * Se carga función consultarDatosCesantias() con evento onload de la página 
+  */
+
+  window.onload = consultarDatosCesantias(); 
+
+  /* 
+  * Función para consultar datos de la tabla de datos solicitudes
+  */
+  
+  function consultarDatosCesantias() {
+   
+    loadPage("Cargando"); // Se muestra loader -> carga de la página    
+
+    localforage.getItem('objetoDatos').then((dato) => { // Se obtiene objetoDatos del localForage    
+      mostrarDetalleCesantias(dato);
+    });   
+
+  }
+
+  /* 
+  * Función para ver información al detalle de la solicitud de cesantías
+  */
+
+  const mostrarDetalleCesantias = (dato) => {
+    
+    let keyData = dato.key; // Se obtiene key de la fila actual
+    let datoBase = dato.dato; // Se obtiene la matriz de toda la base
+    let modulo = dato.modulo; // Se obtiene módulo actual del aplicativo
+    let urlWeb = dato.urlWeb; //  Se obtiene url del aplicativo
+    let datoFila = dato.dato[keyData]; // Se obtiene valor de fila actual
+    let estado = datoFila["Estado"]; // Se obtiene valor de estado de la solicitud
+    let tipoSolicitud = datoFila["Tipo_solicitud"]; // Se obtiene valor de tipo solicitud
+    let carpetaAdjuntos = datoFila["Documentacion_adjunta"]; // Se obtiene url de la carpeta con los adjuntos
+    let carpetaSoporte = datoFila["Carpeta_de_soporte"]; // Se obtiene url de la carpeta con los adjuntos
+    
+    if (tipoSolicitud.toUpperCase().trim() === "RETIRO CESANTIAS FONDO") { // Si tipo solicitud es igual a RETIRO CESANTIAS FONDO se muestran campos
+      $("#divFondoCesantias").css("display","block");
+      $("#divformaPagoCesantias").css("display","block");
+      $("#principalCarpetaPersonal").css("display","block"); // Se muestra bóton de carpeta personal
+      $("#principalEnviarDoc").css("display","block"); // Se muestra bóton de enviar documentos      
+
+      if (moment(datoFila["Fecha_gestionado"], 'DD/MM/YYYY',true).isValid()) { // Si valor de fecha gestionado tiene una fecha valida
+        $("#btnSinCrear").css("visibility","visible");
+        $("#btnSinCrear").text("Enviado"); 
+      }
+      else { // Si valor de fecha gestionado no tiene una fecha valida
+        $("#btnSinCrear").css("visibility","visible");
+        $("#btnSinCrear").text("Sin Enviar"); 
+      }
+    }
+
+    else if (tipoSolicitud.toUpperCase().trim() === "RETIRO CESANTIAS COMPAÑIA") { // Si tipo solicitud es igual a RETIRO CESANTIAS COMPAÑIA se muestran campos
+      $("#principalCarpetaPersonal").css("display","block"); // Se muestra bóton de carpeta personal  
+    }
+    
+    // Se carga información actual de la solicitud en input
+
+    let fechaSolicitud = datoFila["Fecha_solicitud"]; // Se obtiene valor fecha de solicitud
+    let fechaDevuelto = datoFila["Fecha_devuelto"]; // Se obtiene valor de fecha devuelto
+    let fechaRechazo = datoFila["Fecha_rechazo"]; // Se obtiene fecha de rechazo
+    let fechaCierre = datoFila["Fecha_cierre"]; // Se obtiene fecha de cierre
+    let fechaGestionado = datoFila["Fecha_gestionado"]; // Se obtiene fecha de gestionado
+
+    if (fechaSolicitud !== "") {  // Si fecha solicitud es <> vacío
+      fechaSolicitud = moment(fechaSolicitud, 'DD/MM/YYYY').format('YYYY-MM-DD'); 
+    }
+
+    if (fechaDevuelto !== "") {  // Si fecha devuelto es <> vacío
+      fechaDevuelto = moment(fechaDevuelto, 'DD/MM/YYYY').format('YYYY-MM-DD'); 
+    }  
+
+    if (fechaRechazo !== "") { // Si fecha rechazo es <> vacío
+      fechaRechazo = moment(fechaRechazo, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    }
+
+    if (fechaCierre !== "") { // Si fecha cierre es <> vacío
+      fechaCierre = moment(fechaCierre, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    }
+
+    if (fechaGestionado !== "") { // Si fecha gestionado es <> vacío
+      fechaGestionado = moment(fechaGestionado, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    }
+    
+    $("#numeroSolicitud").val(datoFila["Numero_solicitud"]);
+    $("#idPipol").val(datoFila["Id_pipol"]);
+    $("#contratoSaghi").val(datoFila["Contrato_saghi"]);
+    $("#tipoIdentificacion").val(datoFila["Tipo_identificacion"]);    
+    $("#numeroIdentificacion").val(datoFila["Número_de_identificacion"]);
+    $("#nombresApellidos").val(datoFila["Nombres_y_apellidos"]);
+    $("#tipoNomina").val(datoFila["Tipo_de_nómina"]);
+    $("#correoCorporativo").val(datoFila["Correo_corporativo"]);
+    $("#compañia").val(datoFila["Compañia"]);
+    $("#tipoSolicitud").val(tipoSolicitud);    
+    $("#estado").val(estado);
+    $("#fondoCesantias").val(datoFila["Fondo_de_cesantias"]);
+    $("#motivoRetiroCesantias").val(datoFila["Motivo_de_retiro_de_cesantias"]);        
+    $("#montoSolicitar").val(datoFila["Monto_a_solicitar"]);
+    $("#formaPagoCesantias").val(datoFila["Forma_de_pago_de_las_cesantias"]);
+    $("#calendario").val(datoFila["Calendario"]);
+    $("#ordenPago").val(datoFila["Orden_de_pago"]);
+    $("#FechaSolicitud").val(fechaSolicitud);
+    $("#FechaDevuelto").val(fechaDevuelto);
+    $("#FechaRechazo").val(fechaRechazo);
+    $("#fechaCierre").val(fechaCierre);
+    $("#fechaGestionado").val(fechaGestionado);
+    $("#observaciones").val(datoFila["Observaciones"]);
+    
+    if (estado === "Rechazado") { // Si estado es igual a Rechazado    
+      $("#divMotivoRechazo").css("display","block"); // Se muestra campo de motivo rechazo
+      $("#motivoRechazo").val(datoFila["Motivo_rechazo"]);     
+    }
+    else {
+      $("#divMotivoRechazo").css("display","none"); // Se oculta campo de motivo rechazo  
+    }
+
+    if (estado === "Devuelto") { // Si estado es igual a Devuelto    
+      $("#divMotivoDevolución").css("display","block"); // Se muestra campo de motivo devolución
+      $("#motivoDevolución").val(datoFila["Motivo_devolución"]);     
+    }
+    else {
+      $("#divMotivoDevolución").css("display","none"); // Se oculta campo de motivo devolución  
+    }
+
+    if (estado === "Respuesta devolución") { // Si estado es igual a Respuesta devolución    
+      $("#divRespuestaDevolución").css("display","block"); // Se muestra campo de respuesta devolución
+      $("#respuestaDevolución").val(datoFila["Respuesta_Devolución"]);     
+    }
+
+    else {
+      $("#divRespuestaDevolución").css("display","none"); // Se oculta campo de respuesta devolución  
+    }
+
+    if (carpetaAdjuntos !== "") { // Si carpetaAdjuntos es <> vacío
+
+      /*======== Evento para abrir url al presionar btnCarpetaPersonal ========*/
+      $('#btnCarpetaPersonal').click(() => { 
+        window.open(carpetaAdjuntos, '_blank');
+      });
+
+    } // Fin si carpetaAdjuntos es <> vacío
+    
+    if (carpetaSoporte !== "") { // Si carpetaSoporte es <> vacío
+    
+      /*======== Evento para abrir url al presionar btnCarpetaPersonal ========*/
+      $('#btnCarpetaEnviarDoc').click(() => {
+        window.open(carpetaSoporte, '_blank');
+      });
+      
+    } // Fin si carpetaSoporte es <> vacío
+    
+    // Evento onclick sobre botón guardar datos
+
+    $("#btnGuardarDatos").on("click",(e) => {
+
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      loadPage("Guardando"); // Se muestra loader -> carga de la página
+      guardarDatosSolicitud(keyData,datoBase,modulo,urlWeb); // Se llama función para guardar datos en la base
+
+    });
+    
+    // Evento onclick para botón -> En trámite
+
+    $("#btnTramite").on("click",(e) => { 
+
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      loadPage("Actualizando"); // Se muestra loader -> carga de la página
+      
+      let propiedadObjeto = datoBase[keyData]; // Se obtiene key de objeto seleccionada
+      propiedadObjeto["Estado"] = "En tramite"; // Se cambia estado actual de la solicitud a -> En tramite           
+      
+      // Se crea objeto de datos con matriz y key de la matriz en la base
+
+      let objetoDatos = {
+        "dato": datoBase,
+        "key": keyData,
+        "modulo": modulo,
+        "urlWeb": urlWeb  
+      }      
+
+      google.script.run.withFailureHandler(notificarErrorGuardar).withSuccessHandler((dato) => { 
+        
+        localforage.setItem('objetoDatos', objetoDatos); // Se envia array de objetoDatos que proviene del gs al localForage
+        mostrarDetalleCesantias(dato); // Se llama función para mostrar detalle de cesantías, se les pasa objeto de datos actualizado 
+        mostrarGuardarExitoso(); // Se llama función para mostrar alerta de guardado exitoso
+            
+      }).guardarDatosSolicitud(objetoDatos);
+
+    });
+
+    // Evento onclick para botón -> Gestionado
+
+    $("#btnGestionado").on("click",(e) => { 
+
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      loadPage("Actualizando"); // Se muestra loader -> carga de la página
+      
+      let fechaActual = moment(new Date()).format("DD/MM/YYYY"); // Se obtiene fecha actual en formato -> DD/MM/YYYY
+      let propiedadObjeto = datoBase[keyData]; // Se obtiene key de objeto seleccionada 
+      propiedadObjeto["Estado"] = "Gestionado"; // Se cambia estado actual de la solicitud a -> Gestionado
+      propiedadObjeto["Fecha_gestionado"] = fechaActual; // Se cambia valor de fecha gestionado     
+      let estado = propiedadObjeto["Estado"]; // Se obtiene valor de estado
+
+      if (estado === "Gestionado") { // Si estado es igual a Gestionado    
+        $("#divMotivoDevolución").css("display","none"); // Se oculta campo de motivo devolución
+      }          
+
+      // Se crea objeto de datos con matriz y key de la matriz en la base
+
+      let objetoDatos = {
+        "dato": datoBase,
+        "key": keyData,
+        "modulo": modulo,
+        "urlWeb": urlWeb  
+      }
+              
+      google.script.run.withFailureHandler(notificarErrorGuardar).withSuccessHandler((dato) => { 
+        
+        localforage.setItem('objetoDatos', objetoDatos); // Se envia array de objetoDatos que proviene del gs al localForage
+        mostrarDetalleCesantias(dato); // Se llama función para mostrar detalle de cesantías, se les pasa objeto de datos actualizado
+        mostrarGuardarExitoso(); // Se llama función para mostrar alerta de guardado exitoso
+
+        if (moment(propiedadObjeto["Fecha_gestionado"], 'DD/MM/YYYY',true).isValid()) { // Si valor de fecha gestionado tiene una fecha valida
+          $("#btnSinCrear").css("visibility","visible");
+          $("#btnSinCrear").text("Enviado"); 
+        } 
+
+      }).guardarDatosSolicitud(objetoDatos);      
+
+    });
+
+    // Evento onclick para botón -> Devuelto
+
+    $("#btnDevuelto").on("click",(e) => { 
+      e.preventDefault();
+      e.stopImmediatePropagation();
+            
+      // Se muestra alerta para ingresar motivo de la devolución y luego actualizar el estado a -> Devuelto
+
+      swal.fire({ 
+        title: 'Motivo de la devolución',
+        input: 'textarea',
+        showCancelButton: true,
+        confirmButtonColor: '#016d38',        
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Confirmar',        
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then((resultado) => {         
+        let valor = resultado.value;
+        if (valor || valor === "") { // Si existe un valor ó si está vacío  
+          loadPage("Guardando"); // Se muestra loader -> carga de la página    
+
+          let fechaDevuelto = moment(new Date()).format("DD/MM/YYYY"); // Se obtiene fecha actual en formato -> DD/MM/YYYY
+          let propiedadObjeto = datoBase[keyData]; // Se obtiene key de objeto seleccionada
+          propiedadObjeto["Estado"] = "Devuelto"; // Se cambia estado actual de la solicitud a -> Devuelto          
+          propiedadObjeto["Fecha_devuelto"] = fechaDevuelto; // Se cambia valor de fecha devuelto          
+          propiedadObjeto["Motivo_devolución"] = valor; // Se agrega motivo de la devolución en propiedadObjeto
+
+          // Se crea objeto de datos con matriz y key de la matriz en la base
+
+          let objetoDatos = {
+            "dato": datoBase,
+            "key": keyData,
+            "modulo": modulo,
+            "urlWeb": urlWeb  
+          }
+
+          // Se realiza consulta al servidor para actualizar el estado de la solicitud a Devuelto          
+          
+          
+          google.script.run.withFailureHandler(notificarErrorGuardar).withSuccessHandler((dato) => { 
+
+            localforage.setItem('objetoDatos', objetoDatos); // Se envia array de objetoDatos que proviene del gs al localForage
+            mostrarDetalleCesantias(dato); // Se llama función para mostrar detalle de cesantías, se les pasa objeto de datos actualizado 
+            mostrarGuardarExitoso(); // Se llama función para mostrar alerta de guardado exitoso
+                
+          }).guardarDatosSolicitud(objetoDatos);
+
+        } // Fin si existe un valor ó si está vacío 
+      }); 
+    });
+
+    // Evento onclick para botón -> Rechazado
+
+    $("#btnRechazado").on("click",(e) => { 
+      e.preventDefault();
+      e.stopImmediatePropagation();
+            
+      // Se muestra alerta para ingresar motivo del rechazo y luego actualizar el estado a -> Rechazado
+
+      swal.fire({ 
+        title: 'Motivo del rechazo',
+        input: 'textarea',
+        showCancelButton: true,
+        confirmButtonColor: '#016d38',        
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Confirmar',        
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then((resultado) => {         
+        let valor = resultado.value;
+        if (valor || valor === "") { // Si existe un valor ó si está vacío  
+          loadPage("Guardando"); // Se muestra loader -> carga de la página    
+
+          let fechaRechazado = moment(new Date()).format("DD/MM/YYYY"); // Se obtiene fecha actual en formato -> DD/MM/YYYY
+          let propiedadObjeto = datoBase[keyData]; // Se obtiene key de objeto seleccionada
+          propiedadObjeto["Estado"] = "Rechazado"; // Se cambia estado actual de la solicitud a -> Rechazado          
+          propiedadObjeto["Fecha_rechazo"] = fechaRechazado; // Se cambia valor de fecha rechazo          
+          propiedadObjeto["Motivo_rechazo"] = valor; // Se agrega motivo del rechazo en propiedadObjeto
+
+          // Se crea objeto de datos con matriz y key de la matriz en la base
+
+          let objetoDatos = {
+            "dato": datoBase,
+            "key": keyData,
+            "modulo": modulo,
+            "urlWeb": urlWeb  
+          }
+
+          // Se realiza consulta al servidor para actualizar el estado de la solicitud a Rechazado          
+          
+          
+          google.script.run.withFailureHandler(notificarErrorGuardar).withSuccessHandler((dato) => { 
+
+            localforage.setItem('objetoDatos', objetoDatos); // Se envia array de objetoDatos que proviene del gs al localForage
+            mostrarDetalleCesantias(dato); // Se llama función para mostrar detalle de cesantías, se les pasa objeto de datos actualizado 
+            mostrarGuardarExitoso(); // Se llama función para mostrar alerta de guardado exitoso
+                
+          }).guardarDatosSolicitud(objetoDatos);
+
+        } // Fin si existe un valor ó si está vacío 
+      }); 
+    });
+
+    loadPage(); // Se detiene el loader de carga de la página
+
+  }
+
+  /* 
+  * Función para guardar datos de la solicitud en la base de datos
+  */
+
+  const guardarDatosSolicitud = (keyData,datoBase,modulo,urlWeb) => {
+    
+    // Aqui se deben modificar los valores del objeto actual por los valores de los campos nuevos
+    
+    let fechaSolicitud = $("#FechaSolicitud").val(); // Se obtiene valor fecha de solicitud
+    let fechaDevuelto = $("#FechaDevuelto").val(); // Se obtiene valor fecha de devuelto
+    let fechaRechazo = $("#FechaRechazo").val(); // Se obtiene fecha de rechazo
+    let fechaCierre = $("#fechaCierre").val(); // Se obtiene fecha de cierre
+    let fechaGestionado = $("#fechaGestionado").val(); // Se obtiene fecha de gestionado
+    
+    if (fechaSolicitud !== "") {  // Si fecha solicitud es <> vacío
+      fechaSolicitud = moment(fechaSolicitud, 'YYYY-MM-DD').format('DD/MM/YYYY'); 
+    } 
+
+    if (fechaRechazo !== "") { // Si fecha rechazo es <> vacío
+      fechaRechazo = moment(fechaRechazo, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    }
+
+    if (fechaCierre !== "") { // Si fecha cierre es <> vacío
+      fechaCierre = moment(fechaCierre, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    }
+
+    if (fechaGestionado !== "") { // Si fecha gestionado es <> vacío
+      fechaGestionado = moment(fechaGestionado, 'YYYY-MM-DD').format('DD/MM/YYYY');
+    }
+
+    let propiedadObjeto = datoBase[keyData]; // Se obtiene key de objeto seleccionada
+    let estado = propiedadObjeto["Estado"]; // Se obtiene valor de estado de la solicitud
+   
+    propiedadObjeto["Numero_solicitud"] = $("#numeroSolicitud").val();
+    propiedadObjeto["Id_pipol"] = $("#idPipol").val();
+    propiedadObjeto["Contrato_saghi"] = $("#contratoSaghi").val();
+    propiedadObjeto["Tipo_identificacion"] = $("#tipoIdentificacion").val();
+    propiedadObjeto["Número_de_identificacion"] = $("#numeroIdentificacion").val();
+    propiedadObjeto["Nombres_y_apellidos"] = $("#nombresApellidos").val();
+    propiedadObjeto["Tipo_de_nómina"] = $("#tipoNomina").val();
+    propiedadObjeto["Correo_corporativo"] = $("#correoCorporativo").val();
+    propiedadObjeto["Compañia"] = $("#compañia").val();
+    propiedadObjeto["Tipo_solicitud"] = $("#tipoSolicitud").val();
+    propiedadObjeto["Estado"] = $("#estado").val();
+    propiedadObjeto["Fondo_de_cesantias"] = $("#fondoCesantias").val();
+    propiedadObjeto["Motivo_de_retiro_de_cesantias"] = $("#motivoRetiroCesantias").val();
+    propiedadObjeto["Monto_a_solicitar"] = $("#montoSolicitar").val();
+    propiedadObjeto["Forma_de_pago_de_las_cesantias"] = $("#formaPagoCesantias").val();
+    propiedadObjeto["Calendario"] = $("#calendario").val();
+    propiedadObjeto["Orden_de_pago"] = $("#ordenPago").val(); 
+    propiedadObjeto["Fecha_solicitud"] = fechaSolicitud;
+    propiedadObjeto["Fecha_devuelto"] = fechaDevuelto;
+    propiedadObjeto["Fecha_rechazo"] = fechaRechazo;
+    propiedadObjeto["Fecha_cierre"] = fechaCierre;
+    propiedadObjeto["Fecha_gestionado"] = fechaGestionado;
+    propiedadObjeto["Observaciones"] = $("#observaciones").val();
+    
+    if (estado === "Devuelto") { // Si estado es igual a Devuelto
+      propiedadObjeto["Motivo_devolución"] = $("#motivoDevolución").val();            
+    } 
+       
+    // Se crea objeto de datos con matriz y key de la matriz en la base
+
+    let objetoDatos = {
+      "dato": datoBase,
+      "key": keyData,
+      "modulo": modulo,
+      "urlWeb": urlWeb  
+    }
+
+    // Se realiza petición al servidor para guardar registro en la base    
+    
+    google.script.run.withFailureHandler(notificarErrorGuardar).withSuccessHandler((dato) => { 
+
+      localforage.setItem('objetoDatos', objetoDatos); // Se envia array de objetoDatos que proviene del gs al localForage
+      mostrarDetalleCesantias(dato); // Se llama función para mostrar detalle de cesantías, se les pasa objeto de datos actualizado 
+      mostrarGuardarExitoso(); // Se llama función para mostrar alerta de guardado exitoso
+          
+    }).guardarDatosSolicitud(objetoDatos);
+
+  }
+  
+  /* 
+  * Función para mostrar alerta que indica que el registro quedó guardado exitosamente en la base
+  */
+
+  const mostrarGuardarExitoso = () => {
+
+    loadPage(); // Se detiene el loader de carga de la página
+  
+    // Se muestra alerta informando que la actualización se realizó correctamente
+
+    swal.fire({ 
+      icon: 'success',
+      title: '<span style="color: #000"> ¡Cambio exitoso! </span>',
+      html: '<span style="color: #000"> La actualización se ha realizado correctamente. </span>',  
+      iconColor: '#016d38',
+      confirmButtonColor: '#016d38',
+      confirmButtonText: 'Aceptar',
+      timer: 7000
+    });
+
+    return;
+
+  }
+
+   /* 
+  * Función para mostrar alerta que indica que el registro no se pudo guardar exitosamente en la base
+  */
+
+  const notificarErrorGuardar = () => {
+
+    loadPage(); // Se detiene el loader de carga de la página
+  
+    // Se muestra alerta informando que la actualización se realizó correctamente
+
+    swal.fire({
+      icon: 'error',
+      title: '<span style="color: #000"> ¡Error al actualizar! </span>',
+      html: '<span style="color: #000"> La actualización no se ha realizado correctamente. </span>',  
+      iconColor: '#016d38',
+      confirmButtonColor: '#016d38',
+      confirmButtonText: 'Aceptar',
+      timer: 7000
+    });
+
+    return;
+
+  }
+
+  /*============================================== Eventos sobre los botones en footer ==============================================*/
+
+  $("#btnCerrar").click(e => { // Evento clic para botón -> Cerrar
+
+    e.preventDefault();
+    loadPage("Cargando"); // Se muestra loader -> carga de la página
+    redirigirPagina(); // Se llama función para ver datos de la td cliqueada
+
+  });  
+
+</script>

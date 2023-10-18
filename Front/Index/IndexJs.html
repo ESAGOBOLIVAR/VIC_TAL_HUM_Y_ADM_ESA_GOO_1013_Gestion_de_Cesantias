@@ -1,0 +1,261 @@
+<script>
+  
+  /**
+  * Se carga función consultarDatosCesantias() con evento onload de la página 
+  */
+
+  window.onload = consultarDatosCesantias(); 
+
+  /* 
+  * Función para consultar datos de la tabla de productos
+  */
+  
+  function consultarDatosCesantias() {
+
+    loadPage("Cargando"); // Se muestra loader -> carga de la página   
+
+    google.script.run.withSuccessHandler((dato) => {    
+      mostrarDatosCesantias(dato);       
+    }).consultarDatosCesantias(); 
+  
+  }
+
+  /* 
+  * Función para mostrar datos de la hoja -> Datos solicitudes en datatable
+  */ 
+  
+  const mostrarDatosCesantias = (dato) => { // Valida la información para construir las tablas  y las escribe en el dom   
+
+    cargarFiltrosDatatable(dato); // Se llama función para cargar filtros de datatable
+                     
+    $.each(dato, (key,value) => { // Se iteran cada uno de los key del objeto dato    
+
+      // Se almacena en variable botón de acción para añadir cómo columna final al datatable
+
+      let colAcc = '<button type="button" class="btn btnVerTd" id="verTd'+key+'">'+
+                     '<i class="fa fa-eye" aria-hidden="true"></i>'+
+                     '<text> Ver detalle solicitud </text>'+
+                   '</button>';
+
+      dato[key]["Acción"] = colAcc;  // Se añade nueva propiedad acción al objeto
+
+      // Se agrega evento onclick al botón dinámico -> VerTd
+
+      $('body').on('click', '#verTd' + key, (e) => {
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        loadPage("Cargando"); // Se muestra loader -> carga de la página
+        let modulo = "ver_solicitud"; // Se declara módulo al cual será redirigido
+        redirigirPagina(dato,key,modulo); // Se llama función para ver datos de la td cliqueada
+               
+      });
+
+    }); 
+
+    $('#tableCesantias').DataTable({ // Se pinta tabla con datos de la hoja actual
+      "dom": 'Qlfrtip',   
+      "bSort": false,
+      "destroy": true,
+      "processing": true,
+      "searching": true,
+      "autoWidth": true,
+      'pageLength': 6,
+      "lengthChange": false,
+      "lengthMenu": [ [5, 15, 50, -1], [5, 15, 50, "Todos"] ],
+      "pagingType": "full_numbers",               
+      "language": {
+        "decimal": "",
+        "emptyTable": "No hay información",
+        "info": "_START_ - _END_ de _TOTAL_",
+        "infoEmpty": "", //"Mostrando 0 to 0 of 0 registros",
+        "infoFiltered": "", //"(Filtrado de _MAX_ registros)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "Sin resultados encontrados",
+        "paginate": {
+          "first": "<<",
+          "last": ">>",
+          "next": ">",
+          "previous": "<"
+        }
+      },      
+      initComplete: () => {
+        $("#tableCesantias_filter").css("display","none"); // Se oculta input search de datatable
+        $("#tableCesantias").addClass("sombra_tabla"); // Se inserta clase a contenedor de la tabla
+        $('#tableCesantias').DataTable().columns.adjust(); // Se ajusta el tamaño de las columnas de la tabla     
+      },
+            
+      "data": dato,    
+      "columns": [
+        {title: "Fecha solicitud", data: "Fecha_solicitud"},
+        {title: "Número solicitud", data: "Numero_solicitud"},
+        {title: "Número identificación", data: "Número_de_identificacion"},
+        {title: "Nombres y apellidos", data: "Nombres_y_apellidos"},
+        {title: "Tipo de nómina", data: "Tipo_de_nómina"},
+        {title: "Tipo solicitud", data: "Tipo_solicitud"},
+        {title: "Estado", data: "Estado"},
+        {title: "Acción", data: "Acción"}
+      ],   
+
+    });            
+
+    loadPage(); // Se detiene el loader de carga de la página
+    
+  } 
+
+  /* 
+  * Función para cargar filtros en menú sidevar
+  */
+
+  const cargarFiltrosDatatable = (dato) => {
+    
+    // Se eliminan registros duplicados por item en el objeto -> Tipo nómina   
+
+    let uniTipoNomina = _.uniqBy(dato, (item) => { return [item["Tipo_de_nómina"], item["Tipo_de_nómina"]].join() });   
+    let ordTipoNomina = _.sortBy(uniTipoNomina, ["Tipo_de_nómina"]); // ordena uniTipoNomina por item tipo nómina   
+    
+    $.each(ordTipoNomina, (key,value) => { // Se carga ordTipoNomina filtrado y organizado para el select tipo nómina
+      let tipoNomina = value["Tipo_de_nómina"];
+      if (tipoNomina !== "") {
+        $("#Tipo_de_nómina").append("<option value='" + tipoNomina + "'>" + tipoNomina + "</option>");
+      }     
+    });
+
+    // Se eliminan registros duplicados por item en el objeto -> Tipo solicitud    
+
+    let uniTipoSolicitud = _.uniqBy(dato, (item) => { return [item["Tipo_solicitud"], item["Tipo_solicitud"]].join() });   
+    let ordTipoSolicitud = _.sortBy(uniTipoSolicitud, ["Tipo_solicitud"]); // ordena uniTipoSolicitud por item tipo nómina   
+    
+    $.each(ordTipoSolicitud, (key,value) => { // Se carga ordTipoSolicitud filtrado y organizado para el select tipo solicitud
+      let tipoSolicitud = value["Tipo_solicitud"];
+      if (tipoSolicitud !== "") {
+        $("#Tipo_solicitud").append("<option value='" + tipoSolicitud + "'>" + tipoSolicitud + "</option>");
+      }     
+    });
+
+    // Se eliminan registros duplicados por item en el objeto -> Estado   
+
+    let uniEstado = _.uniqBy(dato, (item) => { return [item["Estado"], item["Estado"]].join() });   
+    let ordEstado = _.sortBy(uniEstado, ["Estado"]); // ordena uniEstado por item estado   
+    
+    $.each(ordEstado, (key,value) => { // Se carga ordEstado filtrado y organizado para el select estado
+      let estado = value["Estado"];
+      if (estado !== "") {
+        $("#Estado").append("<option value='" + estado + "'>" + estado + "</option>");
+      }     
+    });
+
+  }
+  
+  /*============================================== Eventos sobre los filtros para datatable ==============================================*/  
+    
+  $("#principalFiltros").find(':input').on('input', function (e) {   
+    
+    let idElemento = this.id; // Se obtiene id de elemento html
+    let valorElemento = this.value; // Se obtiene valor de elemento html
+    let elementoId = $("#"+idElemento); // Se obtiene elemento html por id            
+    let nameInputFecha = elementoId.attr("name"); // Se obtiene valor de atributo name
+        
+    switch (this.type) {
+      
+      case 'select-one': /*================= Si es un campo -> opción select simple =================*/
+      
+        filtrarItemSelect(idElemento, valorElemento); // Se llama función para filtrar tabla de cesantìas por input select iterado
+      
+      break;
+      case 'text': /*================= Si es un campo -> opción tipo texto  =================*/        
+
+        filtrarItemSelect(idElemento, valorElemento); // Se llama función para filtrar tabla de cesantìas por input text iterado
+
+      break;
+      case 'date': /*================= Si es un campo -> opción tipo date  =================*/
+        
+        filtrarItemDate(idElemento, valorElemento); // Se llama función para filtrar tabla de cesantìas por input text iterado
+
+      break;       
+
+    }
+
+  });
+
+  /* 
+  * Función para filtrar datatable por input text y select
+  */
+
+  const filtrarItemSelect = (id, value) => {
+
+    let colFil = value.trim(); // Se obtiene valor del select iterado en el menú de filtros  
+
+    let table = $('#tableCesantias').dataTable(); // Se obtiene datatable con id -> tableDatos    
+    
+    let headersDataTables = $('#tableCesantias').DataTable().columns().header(); // Se obtienen titulos de las columnas de la datatable
+    let columTable; // Variable para almacenar posición de columna en datatable
+
+    $.each(headersDataTables, (key, value) => { // Se itera el objeto con los titulos de las columnas de la datatable 
+
+      let headerTab = $(value).text().trim().replaceAll(" ","_"); // Se obtiene el titulo de columna datatable iterado
+
+      if (headerTab === id) { //  Si columna es igual a la iterada
+        columTable = key;
+      }
+
+    }); // Fin se itera el objeto con los titulos de las columnas de la datatable    
+        
+    table.fnFilter(colFil, columTable, true); // Se filtra datatable -> columna item iterado
+
+  }
+
+  /* 
+  * Función para filtrar datatable por input date
+  */
+
+  const filtrarItemDate = (id, value) => {
+    
+    let headersDataTables = $('#tableCesantias').DataTable().columns().header(); // Se obtienen titulos de las columnas de la datatable
+    let columnaFechaSolicitud; // Variable para almacenar posición de columna fecha solicitud en datatable
+
+    $.each(headersDataTables, (key, value) => { // Se itera el objeto con los titulos de las columnas de la datatable 
+
+      let headerTab = $(value).text().trim().replaceAll(" ","_"); // Se obtiene el titulo de columna datatable iterado
+
+      if (headerTab === id) { //  Si columna es igual a fecha solicitud
+        columnaFechaSolicitud = key;
+      }    
+
+    }); // Fin se itera el objeto con los titulos de las columnas de la datatable
+    
+    if (columnaFechaSolicitud !== undefined) { // Si existe posición de la columna en la datatable   
+      
+      let fechaSolicitud = value; // Se asigna valor de fecha solicitud
+      let table = $('#tableCesantias').DataTable(); // Se obtiene datatable con id -> tableDatos
+
+      $.fn.dataTable.ext.search.pop(); // Restaura el filtro del datatable 
+
+      let filtrarTable = $.fn.dataTable.ext.search.push(function (settings, data, dataIndex) { // -> Se aplica filtro para datatable por campo -> Fecha solicitud        
+        
+        let fechaSoliTable = moment(data[columnaFechaSolicitud], 'DD/MM/YYYY').format('YYYY-MM-DD'); // Se asigna posición de la columna fecha solicitud en datatable
+                  
+        // Se retornan valores filtrados para la tabla
+        
+        if ((fechaSolicitud === "") || (fechaSolicitud === fechaSoliTable)) {
+          return true;
+        }
+
+        return false;
+
+      }); // -> Fin se aplica filtro para datatable por campo -> Fecha Facturación
+
+      table.draw(); // Se dibuja tabla luego de aplicar filtros
+
+      return filtrarTable;
+
+    } // Fin si existe posición de la columna en la datatable   
+
+  }   
+    
+</script>

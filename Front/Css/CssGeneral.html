@@ -1,0 +1,214 @@
+<style>
+
+  :root {
+    --verde_bolivar--dark: #05683a;
+    --verde_bolivar--base: #016D38;
+    --verde_bolivar--light: #02D46F;
+    --amarillo_bolivar--base: #ffdc5d;
+    --amarillo_bolivar--dark: #C9AB2A;
+    --amarillo_bolivar--light: #FFF078;
+    --fondo: #ddd;
+    --texto: #707070;
+    --fondo--verde: #F0F6F3;
+    --fondo--verde--hover: #E6F0EB;
+    --fondo--gris: #FBFBFB;
+    --fondo--amarillo: #FFF8DF;
+    --neutro--negro: #1B1B1B;
+    --neutro--gris01: #333333;
+    --neutro--gris02: #666666;
+    --neutro--gris03: #999999;
+    --neutro--gris04: #CCCCCC;
+    --neutro--gris05: #EEEEEE;
+    --neutro--gris06: #FBFBFB;
+    --fondo_elemento: #fff;
+    --fondo_menu: #f4f2ee;
+    --sombra: 0 1px 5px rgba(10, 14, 10, 0.8);
+    --sombra_suave: 0 5px 15px rgba(0, 0, 0, .08);
+    --verde_encendido: #05683a;
+    --verde_alerta: #28A745;
+    --rojo_alerta: #DC3545;
+    --rojo_dark: #ab2632;
+    --amarillo_alerta: #FFC100;
+    --azul_alerta: #007EFF;
+  }  
+
+  /*================= START GENERAL =================*/
+
+  body {
+    font-family: "Nunito";
+    background-color: var(--neutro--gris06) !important; 
+  } 
+  
+  /*================= START LOADING =================*/
+
+  .scripts {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(0 0 0 / 60%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column-reverse;
+    position: fixed;
+    z-index: 5;
+  }
+
+  .wrapper {
+    width: 200px;
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .circle {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #fff;
+    left: 15%;
+    transform-origin: 50%;
+    animation: circle 0.5s alternate infinite ease;
+  }
+
+  @keyframes circle {
+    0% {
+      top: 60px;
+      height: 5px;
+      border-radius: 50px 50px 25px 25px;
+      transform: scaleX(1.7);
+    }
+
+    40% {
+      height: 20px;
+      border-radius: 50%;
+      transform: scaleX(1);
+    }
+
+    100% {
+      top: 0%;
+    }
+  }
+
+  .circle:nth-child(2) {
+    left: 45%;
+    animation-delay: 0.2s;
+  }
+
+  .circle:nth-child(3) {
+    left: auto;
+    right: 15%;
+    animation-delay: 0.3s;
+  }
+
+  .shadow {
+    width: 20px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 62px;
+    transform-origin: 50%;
+    z-index: -1;
+    left: 15%;
+    filter: blur(1px);
+    animation: shadow 0.5s alternate infinite ease;
+  }
+
+  @keyframes shadow {
+    0% {
+      transform: scaleX(1.5);
+    }
+
+    40% {
+      transform: scaleX(1);
+      opacity: 0.7;
+    }
+
+    100% {
+      transform: scaleX(0.2);
+      opacity: 0.4;
+    }
+  }
+
+  .shadow:nth-child(4) {
+    left: 45%;
+    animation-delay: 0.2s;
+  }
+
+  .shadow:nth-child(5) {
+    left: auto;
+    right: 15%;
+    animation-delay: 0.3s;
+  }
+
+  .wrapper span {
+    position: absolute;
+    top: 75px;
+    color: #fff;
+    left: 15%;
+    text-align: center;
+    width: 73%;
+    font-size: 1.5em;
+  }
+
+  /*================= END LOADING =================*/
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .navbar {
+    background-color: var(--neutro--gris06) !important; 
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2); 
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+
+  .tituloNav {
+    margin-right: 4vw; 
+    font-weight: bolder;
+    color: var(--verde_bolivar--base) !important;
+    font-size: calc(1.2rem + 1.2vw);  
+  }
+  
+  .containerDatos {
+    margin: 20px auto;
+    width: 90%;
+    padding: 20px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    border-radius: 10px;
+  }  
+ 
+  .divGuardar {
+    margin-top: 20px;  
+  }
+
+  .btnGuardar {
+    color: var(--verde_bolivar--base) !important;
+    background-color: var(--fondo--verde) !important;
+    padding: 5px 15.5px;
+    border-radius: 22px;
+    border: 1.9px solid var(--verde_bolivar--base) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important;
+  }
+
+  .btnGuardar:hover {
+    color: var(--verde_bolivar--base) !important;
+    background-color: var(--fondo--verde--hover) !important;
+    padding: 5px 15.5px;
+    border-radius: 22px;
+    border: 1.9px solid var(--verde_bolivar--base) !important; 
+    font-size: calc(0.6rem + 0.6vw);  
+    font-weight: bolder !important;
+  }
+    
+</style>

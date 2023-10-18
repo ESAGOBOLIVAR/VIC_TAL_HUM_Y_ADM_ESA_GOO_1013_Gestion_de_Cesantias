@@ -1,0 +1,51 @@
+<script>
+
+  /**
+  * Muestra una ventana de carga.
+  *
+  * @param {string} Texto que se mostrará la ventana.
+  * @param {string} Id del elemento que almacenará la ventana.
+  */
+	const loadPage = (text, div = "loadPage", zindex) => {
+		const index = zindex ? `z-index:${zindex}` : "";
+		const loading = `
+			<div class="scripts" style="${index}">
+				<div class="wrapper">
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="circle"></div>
+					<div class="shadow"></div>
+					<div class="shadow"></div>
+					<div class="shadow"></div>
+					<span>${text}</span>
+				</div>    
+			</div>`;
+		text == "" || text == undefined ? $("#" + div).html("") : $("#" + div).html(loading);
+	};
+ 
+  /* 
+  * Función para redirigir página web a otro módulo datatable por input date
+  */
+
+  const redirigirPagina = (dato,key,modulo) => {    
+    
+    // Se crea objeto con información de la td actual
+
+    let objetoDatos = {
+      "dato": dato,
+      "key": key,
+      "modulo": modulo
+    }
+        
+		google.script.run.withSuccessHandler((objetoData) => {
+      
+      localforage.setItem('objetoDatos', objetoData); // Se envia array de objetoDatos que proviene del gs al localForage
+
+      let urlWeb = objetoData.urlWeb; // Se obtiene la url del aplicativo web
+      window.top.location=`${urlWeb}`; // Se redirige página web      
+
+    }).obtenerUrlAplicativo(objetoDatos);
+
+	}
+
+</script>
